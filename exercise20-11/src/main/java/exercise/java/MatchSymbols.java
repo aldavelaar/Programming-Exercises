@@ -32,8 +32,6 @@ public class MatchSymbols extends Exception {
         } else {
           System.out.println("The symbols in the code are incorrect.");
         }
-        System.out.println(symbols);
-        System.out.println(isCorrect);
       }
   }
 }
