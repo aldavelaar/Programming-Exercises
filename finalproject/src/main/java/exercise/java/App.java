@@ -17,8 +17,22 @@ import javafx.stage.Stage;
     // Indicate which player has a turn, initially it is the X player
     private char whoseTurn = 'Y';
 
+    // Set the size of the board (I've included multiple board layouts that you can play around with)
+    
+    // teeny tiny 5x5
+    //private final int h = 5; private final int w = 5; private final int cellSize = 100;
+
+    // classic/defualt 7x6
+    private final int h = 6; private final int w = 7; private final int cellSize = 100;
+
+    // HUGE
+    //private final int h = 20; private final int w = 37; private final int cellSize = 70;
+
+    // EVEN BIGGER
+    //private final int h = 35; private final int w = 65; private final int cellSize = 40;
+
     // Create and initialize cell
-    private final Cell[][] cell = new Cell[6][7];
+    private final Cell[][] cell = new Cell[h][w];
 
     // Create and initialize a status label
     private final static Label lblStatus = new Label("Yellow's turn to play");
@@ -32,8 +46,8 @@ import javafx.stage.Stage;
       // Pane to hold cell
       GridPane pane = new GridPane();
       pane.setStyle("-fx-border-color: black;");
-      for (int i = 0; i < 6; i++)
-        for (int j = 0; j < 7; j++)
+      for (int i = 0; i < h; i++)
+        for (int j = 0; j < w; j++)
           pane.add(cell[i][j] = new Cell(), j, i);
 
       BorderPane borderPane = new BorderPane();
@@ -42,7 +56,7 @@ import javafx.stage.Stage;
       borderPane.setCenter(pane);
 
       // Create a scene and place it in the stage
-      Scene scene = new Scene(borderPane, 700, 600, Color.YELLOW);
+      Scene scene = new Scene(borderPane, w * cellSize, h * cellSize, Color.YELLOW);
       primaryStage.setTitle("Connect 4"); // Set the stage title
       primaryStage.setScene(scene); // Place the scene in the stage
       primaryStage.show(); // Display the stage
@@ -50,17 +64,19 @@ import javafx.stage.Stage;
 
     /** Determine if the cell are all occupied */
     public boolean isFull() {
-      for (int i = 0; i < 6; i++)
-        for (int j = 0; j < 7; j++)
+      for (int i = 0; i < h; i++)
+        for (int j = 0; j < w; j++)
           if (cell[i][j].getToken() == ' ')
             return false;
 
       return true;
     }
 
+    /** Determine if the move is legal by checking
+     * to see if the cell below the active cell is full */
     public boolean isLegal() {
-      for (int i = 0; i < 5; i++)
-        for (int j = 0; j < 7; j++)
+      for (int i = 0; i < h - 1; i++)
+        for (int j = 0; j < w; j++)
           if (cell[i][j].getToken() != ' ' && cell[i + 1][j].getToken() == ' ')
             return false;
 
@@ -69,8 +85,8 @@ import javafx.stage.Stage;
 
     /** Determine if the player with the specified token wins */
     public boolean isWon(char token) {
-      for (int i = 0; i < 6; i++) {
-        for (int j = 0; j < 4; j++) {
+      for (int i = 0; i < h; i++) {
+        for (int j = 0; j < w - 3; j++) {
           if (cell[i][j].getToken() == token
               && cell[i][j + 1].getToken() == token
               && cell[i][j + 2].getToken() == token
@@ -79,8 +95,8 @@ import javafx.stage.Stage;
           }
         }
       }
-      for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 7; j++) {
+      for (int i = 0; i < h - 3; i++) {
+        for (int j = 0; j < w; j++) {
           if (cell[i][j].getToken() == token
               && cell[i + 1][j].getToken() == token
               && cell[i + 2][j].getToken() == token
@@ -89,8 +105,8 @@ import javafx.stage.Stage;
           }
         }
       }
-      for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 4; j++) {
+      for (int i = 0; i < h - 3; i++) {
+        for (int j = 0; j < w - 3; j++) {
           if (cell[i][j].getToken() == token
               && cell[i + 1][j + 1].getToken() == token
               && cell[i + 2][j + 2].getToken() == token
@@ -99,8 +115,8 @@ import javafx.stage.Stage;
           }
         }
       }
-      for (int i = 0; i < 3; i++) {
-        for (int j = 3; j < 7; j++) {
+      for (int i = 0; i < h - 3; i++) {
+        for (int j = 3; j < w; j++) {
           if (cell[i][j].getToken() == token
               && cell[i + 1][j - 1].getToken() == token
               && cell[i + 2][j - 2].getToken() == token
@@ -187,6 +203,7 @@ import javafx.stage.Stage;
             }
           } else {
             token = ' ';
+            lblStatus.setText("Place pieces in the lowest availible slot");
           }
         }
       }
