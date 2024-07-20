@@ -1,0 +1,26 @@
+<!--An HTML Form Demo -->
+<html>
+<head>
+<title>Interest Calculator</title>
+</head>
+<body>
+<h3>Interest Calculator</h3>
+
+<form action = "NewServlet"
+method = "get">
+<!-- Name text fields -->
+<p><label>Loan Amount: </label>
+<input type = "number" name = "loan" />
+<br><br>
+<label>Annual Interest Rate: </label>
+<input type = "number" name = "yearlyRate" />
+<br><br>
+<label>Number of Years: </label>
+<input type = "number" name = "years" /></p>
+
+<!-- Submit and Reset buttons -->
+<p><input type = "submit" value = "Compute Loan Payment" />
+<input type = "reset" value = "Reset" /></p>
+</form>
+</body>
+</html>
